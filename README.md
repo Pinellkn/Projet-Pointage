@@ -12,6 +12,33 @@ Le projet est composé de deux parties séparées :
 
 ## 1. Lancer le backend (Laravel)
 
+**Première installation uniquement** (une seule fois après le `git clone`) :
+
+```bash
+cd "Backend - Pointage"
+composer install
+copy .env.example .env
+php artisan key:generate
+type nul > database\database.sqlite
+php artisan migrate
+```
+
+⚠️ Sans ces étapes, `php artisan serve` ou `php artisan migrate` échoueront : le fichier
+`.env` et la base `database.sqlite` ne sont **pas** envoyés sur GitHub (volontairement,
+voir la section Notes), donc chaque personne qui clone le projet doit les créer une fois
+chez elle.
+
+**Créer le compte DG** (une seule fois, sur une base fraîchement migrée) :
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/auth/bootstrap-dg -H "Content-Type: application/json" -H "Accept: application/json" -d "{\"email\":\"dgbenidev@gmail.com\",\"password\":\"dg123\",\"fullName\":\"Directeur General\"}"
+```
+
+(ou plus simplement : ouvrir la page `/dg` du frontend, elle appelle cette route
+automatiquement tant qu'aucun DG n'existe.)
+
+**Ensuite, à chaque lancement :**
+
 ```bash
 cd "Backend - Pointage"
 php artisan serve
