@@ -65,6 +65,34 @@ class CheckInController extends Controller
     }
 
     /**
+     * Enregistre l'heure de sortie du pointage du jour (une seule fois par jour).
+     */
+    public function checkout(Request $request)
+    {
+        $checkIn = $request->user()
+            ->checkIns()
+            ->whereDate('check_in_date', now()->toDateString())
+            ->first();
+
+        if (! $checkIn) {
+            return response()->json([
+                'message' => "Vous n'avez pas encore pointé votre arrivée aujourd'hui.",
+            ], 409);
+        }
+
+        if ($checkIn->check_out_time) {
+            return response()->json([
+                'message' => 'Vous avez déjà enregistré votre sortie aujourd\'hui.',
+                'checkIn' => $checkIn,
+            ], 409);
+        }
+
+        $checkIn->update(['check_out_time' => now()]);
+
+        return response()->json(['checkIn' => $checkIn]);
+    }
+
+    /**
      * Vue DG : tous les pointages, avec filtre optionnel par utilisateur ou date.
      */
     public function all(Request $request)

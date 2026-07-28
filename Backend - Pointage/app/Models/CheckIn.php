@@ -14,6 +14,7 @@ class CheckIn extends Model
         'user_id',
         'check_in_date',
         'check_in_time',
+        'check_out_time',
         'note',
     ];
 
@@ -22,6 +23,7 @@ class CheckIn extends Model
         return [
             'check_in_date' => 'date',
             'check_in_time' => 'datetime',
+            'check_out_time' => 'datetime',
         ];
     }
 

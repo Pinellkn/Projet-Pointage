@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/check-ins', [CheckInController::class, 'index']);
     Route::get('/check-ins/today', [CheckInController::class, 'today']);
     Route::post('/check-ins', [CheckInController::class, 'store']);
+    Route::post('/check-ins/checkout', [CheckInController::class, 'checkout']);
 
     Route::get('/daily-reports', [DailyReportController::class, 'index']);
     Route::post('/daily-reports', [DailyReportController::class, 'store']);
